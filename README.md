@@ -9,5 +9,4 @@ Configura:
 
 Configura Anydesk para control remoto con la password toor1234 para su uso no precencial.
 
-
 Hay que descargar ambos archivos.
