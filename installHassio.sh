@@ -276,8 +276,8 @@ info "pass AnyDesk: toor1234"
 info
 
 info "¿Quieres reiniciar Si[s] no[n o intro]? [S/N] "
-read answerop < /dev/tty
+read answerop1 < /dev/tty
 
-if [[ "$answerop" =~ "s" ]] || [[ "$answerop" =~ "S" ]]; then
+if [[ "$answerop1" =~ "s" ]] || [[ "$answerop1" =~ "S" ]]; then
     sudo reboot
 fi
