@@ -1,0 +1,19 @@
+### MOSQUITTO ON HASSIO ###
+mqtt:
+    broker: 192.168.1.10
+    port: 1883
+    username: !secret mqtt_user
+    password: !secret mqtt_pass
+    discovery: true
+
+######### Freeds 
+sensor:
+    - platform: mqtt
+      state_topic: freeds_6d50/calcWatts 
+      name: "freeDS_Wattscalc"
+      unit_of_measurement: "W"
+
+    - platform: mqtt
+      state_topic: freeds_6d50/pwm
+      name: "freeDS_pwm"
+      unit_of_measurement: "W"
