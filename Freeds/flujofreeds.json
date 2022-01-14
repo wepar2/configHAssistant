@@ -1,0 +1,1369 @@
+[
+    {
+        "id": "42f0d6aff6fbdb54",
+        "type": "tab",
+        "label": "Calentador",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "31ad71f1a0ea0297",
+        "type": "inject",
+        "z": "42f0d6aff6fbdb54",
+        "name": "L - D 07:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 07 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "fd9f10ee87cfb41f"
+            ]
+        ]
+    },
+    {
+        "id": "fd9f10ee87cfb41f",
+        "type": "http request",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Reboot FreeDS",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.31/reboot",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "basic",
+        "senderr": false,
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "40165b3b76de0b6a"
+            ]
+        ]
+    },
+    {
+        "id": "40165b3b76de0b6a",
+        "type": "debug",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4d998d4c4c4207f9",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "OFF",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 380,
+        "wires": [
+            [
+                "3d4e22cf6821f80f"
+            ],
+            [
+                "8dd55d381e2dba97"
+            ]
+        ]
+    },
+    {
+        "id": "3d4e22cf6821f80f",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "1cf1b97bb3a724bb"
+            ]
+        ]
+    },
+    {
+        "id": "8dd55d381e2dba97",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 400,
+        "wires": [
+            [
+                "1cf1b97bb3a724bb"
+            ]
+        ]
+    },
+    {
+        "id": "1cf1b97bb3a724bb",
+        "type": "mqtt out",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "topic": "termogrande/cmnd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "29a3a48364025c7e",
+        "x": 910,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "a70b7e899e8658c5",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "MANUAL",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AUTOMATICO",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 500,
+        "wires": [
+            [
+                "9d923f9e1078f9bd"
+            ],
+            [
+                "4a802d075471fb3e"
+            ]
+        ]
+    },
+    {
+        "id": "adef0c7d42e6d247",
+        "type": "api-call-service",
+        "z": "42f0d6aff6fbdb54",
+        "name": "CambiaModePWM-Toggle",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "debugenabled": false,
+        "service_domain": "input_select",
+        "service": "select_next",
+        "entityId": "input_select.pwm_freeds",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "211a9d25a8927f55"
+            ]
+        ]
+    },
+    {
+        "id": "35d40965b312931b",
+        "type": "inject",
+        "z": "42f0d6aff6fbdb54",
+        "name": "L -D 10:59",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "59 10 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "adef0c7d42e6d247"
+            ]
+        ]
+    },
+    {
+        "id": "495820bd8158c06a",
+        "type": "inject",
+        "z": "42f0d6aff6fbdb54",
+        "name": "L -D 16:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 16 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "adef0c7d42e6d247"
+            ]
+        ]
+    },
+    {
+        "id": "211a9d25a8927f55",
+        "type": "debug",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a572de4f77e2fc7c",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Pwm Mode State",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.pwm_freeds",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 160,
+        "y": 380,
+        "wires": [
+            [
+                "4d998d4c4c4207f9"
+            ]
+        ]
+    },
+    {
+        "id": "a51059d65fb49e97",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Mode Auto-Menu",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.modo_freeds",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "a70b7e899e8658c5"
+            ]
+        ]
+    },
+    {
+        "id": "5a6f05f8f2b75beb",
+        "type": "comment",
+        "z": "42f0d6aff6fbdb54",
+        "name": "config freeds termogrande",
+        "info": "Buenas yo tenia el mismo problema y ahora va de lujo, yo puse useExternalMeter 1 y invertGridValue 1. De lujo",
+        "x": 130,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5bc3683865869925",
+        "type": "comment",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Reinicio",
+        "info": "Buenas yo tenia el mismo problema y ahora va de lujo, yo puse useExternalMeter 1 y invertGridValue 1. De lujo",
+        "x": 70,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9d923f9e1078f9bd",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 480,
+        "wires": [
+            [
+                "1cf1b97bb3a724bb"
+            ]
+        ]
+    },
+    {
+        "id": "4a802d075471fb3e",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 520,
+        "wires": [
+            [
+                "1cf1b97bb3a724bb"
+            ]
+        ]
+    },
+    {
+        "id": "47211ab47452ce25",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "OFF",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 680,
+        "wires": [
+            [
+                "52502b4cfe9f8a78",
+                "7983ec38ec7accdb"
+            ],
+            [
+                "ad89047208ae24bb",
+                "7768605d03d4c6d9"
+            ]
+        ]
+    },
+    {
+        "id": "52502b4cfe9f8a78",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "d": true,
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 660,
+        "wires": [
+            [
+                "dac01c890634647b"
+            ]
+        ]
+    },
+    {
+        "id": "ad89047208ae24bb",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "d": true,
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 700,
+        "wires": [
+            [
+                "dac01c890634647b"
+            ]
+        ]
+    },
+    {
+        "id": "dac01c890634647b",
+        "type": "mqtt out",
+        "z": "42f0d6aff6fbdb54",
+        "d": true,
+        "name": "",
+        "topic": "termochico/cmnd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "29a3a48364025c7e",
+        "x": 870,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "bd78c52dfc9249e5",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "MANUAL",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AUTOMATICO",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 860,
+        "wires": [
+            [
+                "db27e8204135d0a4",
+                "644cb8ab0126f3b3"
+            ],
+            [
+                "002d72923c82012d",
+                "258b61e603d0ec83"
+            ]
+        ]
+    },
+    {
+        "id": "6a54a22a523e8077",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Pwm Mode State",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.pwm_termopequeno",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 160,
+        "y": 680,
+        "wires": [
+            [
+                "47211ab47452ce25"
+            ]
+        ]
+    },
+    {
+        "id": "477918a45bbcf5bd",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Mode Auto-Menu",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.modo_freeds_termopequeno",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 160,
+        "y": 860,
+        "wires": [
+            [
+                "bd78c52dfc9249e5"
+            ]
+        ]
+    },
+    {
+        "id": "db27e8204135d0a4",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "d": true,
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 840,
+        "wires": [
+            [
+                "dac01c890634647b"
+            ]
+        ]
+    },
+    {
+        "id": "002d72923c82012d",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "d": true,
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 880,
+        "wires": [
+            [
+                "dac01c890634647b"
+            ]
+        ]
+    },
+    {
+        "id": "3f4e71139fe46c84",
+        "type": "comment",
+        "z": "42f0d6aff6fbdb54",
+        "name": "config freeds termochico 1.1.0 BETA",
+        "info": "Buenas yo tenia el mismo problema y ahora va de lujo, yo puse useExternalMeter 1 y invertGridValue 1. De lujo",
+        "x": 160,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "c02edb3455acf6bf",
+        "type": "comment",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Horario",
+        "info": "Buenas yo tenia el mismo problema y ahora va de lujo, yo puse useExternalMeter 1 y invertGridValue 1. De lujo",
+        "x": 70,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "96e7a7fc7dae8fa7",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "OFF",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 1120,
+        "wires": [
+            [
+                "d8af992a7eff581e"
+            ],
+            [
+                "97d71b6a30290178"
+            ]
+        ]
+    },
+    {
+        "id": "d8af992a7eff581e",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 1100,
+        "wires": [
+            [
+                "4506b0af967410b1"
+            ]
+        ]
+    },
+    {
+        "id": "97d71b6a30290178",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwm\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 1140,
+        "wires": [
+            [
+                "4506b0af967410b1"
+            ]
+        ]
+    },
+    {
+        "id": "4506b0af967410b1",
+        "type": "mqtt out",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "topic": "termococina/cmnd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "29a3a48364025c7e",
+        "x": 910,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "9c05c3507bfeb742",
+        "type": "switch",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "MANUAL",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AUTOMATICO",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 1240,
+        "wires": [
+            [
+                "d1b7de743638ca80"
+            ],
+            [
+                "6029ed2b134b5e7f"
+            ]
+        ]
+    },
+    {
+        "id": "33e59cfb2c18ac6e",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Pwm Mode State",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.pwm_termococina",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 140,
+        "y": 1120,
+        "wires": [
+            [
+                "96e7a7fc7dae8fa7"
+            ]
+        ]
+    },
+    {
+        "id": "2f206d9046cc07a1",
+        "type": "server-state-changed",
+        "z": "42f0d6aff6fbdb54",
+        "name": "Mode Auto-Menu",
+        "server": "12e9254160101b21",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_select.modo_freeds_termococina",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 140,
+        "y": 1240,
+        "wires": [
+            [
+                "9c05c3507bfeb742"
+            ]
+        ]
+    },
+    {
+        "id": "d1b7de743638ca80",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"1\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 1220,
+        "wires": [
+            [
+                "4506b0af967410b1"
+            ]
+        ]
+    },
+    {
+        "id": "6029ed2b134b5e7f",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"command\":\"pwmman\",\"payload\":\"0\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 1260,
+        "wires": [
+            [
+                "4506b0af967410b1"
+            ]
+        ]
+    },
+    {
+        "id": "06358b6a054b595e",
+        "type": "comment",
+        "z": "42f0d6aff6fbdb54",
+        "name": "config freeds termochico",
+        "info": "Buenas yo tenia el mismo problema y ahora va de lujo, yo puse useExternalMeter 1 y invertGridValue 1. De lujo",
+        "x": 110,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "7983ec38ec7accdb",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 620,
+        "wires": [
+            [
+                "4809c18de5e08377"
+            ]
+        ]
+    },
+    {
+        "id": "7768605d03d4c6d9",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 740,
+        "wires": [
+            [
+                "4809c18de5e08377"
+            ]
+        ]
+    },
+    {
+        "id": "4809c18de5e08377",
+        "type": "mqtt out",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "topic": "termochico/cmnd/pwm",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "29a3a48364025c7e",
+        "x": 1190,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "644cb8ab0126f3b3",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "1 - ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 800,
+        "wires": [
+            [
+                "a40071922a4f387a"
+            ]
+        ]
+    },
+    {
+        "id": "258b61e603d0ec83",
+        "type": "change",
+        "z": "42f0d6aff6fbdb54",
+        "name": "0 - OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 920,
+        "wires": [
+            [
+                "a40071922a4f387a"
+            ]
+        ]
+    },
+    {
+        "id": "a40071922a4f387a",
+        "type": "mqtt out",
+        "z": "42f0d6aff6fbdb54",
+        "name": "",
+        "topic": "termochico/cmnd/pwmman",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "29a3a48364025c7e",
+        "x": 1200,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "29a3a48364025c7e",
+        "type": "mqtt-broker",
+        "name": "Mqtt Guarida",
+        "broker": "192.168.1.10",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "12e9254160101b21",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 2,
+        "addon": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": "30"
+    }
+]
