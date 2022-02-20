@@ -34,7 +34,6 @@ else
 	mkdir /docker/influxdb/etc/
 	mkdir /docker/influxdb/etc/influxdb
 	mkdir /docker/portainer
-	mkdir /docker/portainer
 	mkdir /home/pi/borrame
 	mkdir /home/pi/backupDocker
 
