@@ -1,4 +1,4 @@
-# Config HomeAssitant
+# Config HomeAssistant
 Instalador de Home Assistant más docker en Raspberry Pi 4. 
 
 Configura:
