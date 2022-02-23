@@ -60,6 +60,7 @@ else
 	sudo chown pi -R /docker
 	mkdir /home/pi/backupDocker
 	sudo chown pi /home/pi/backupDocker
+	sudo chown pi -R /docker
 	
 	info "instalando AnyDesk"
 	wget https://download.anydesk.com/rpi/anydesk_6.1.1-1_armhf.deb
@@ -74,7 +75,7 @@ else
 	sleep 5
 	curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker pi
 
-	info "Instalando NodeRed, influxdb, portainer web, duckdns, nginx"
+	info "Instalando NodeRed, influxdb, portainer web"
 	sleep 5
 
 	# instalacion nodered
@@ -85,7 +86,7 @@ else
 	sudo docker run --name nodered -itd --restart=always -p 1880:1880 -v /docker/nodered/data:/data  nodered/node-red && sudo docker run --name influxdb -itd --restart=always -p 8086:8086 -p 8083:8083 -p 2003:2003 -v /docker/influxdb/var/lib/influxdb:/var/lib/influxdb -v /docker/influxdb/etc/influxdb:/etc/influxdb influxdb:1.8
 
 	sleep 1
-	sudo pip install mega.py -y
+	sudo pip install mega.py
 
 	info "Descargando os-agent"
 	sleep 5
