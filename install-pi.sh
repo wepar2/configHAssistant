@@ -38,6 +38,8 @@ else
 	network-manager \
 	libgles-dev \
 	libegl-dev \
+	libminizip1 \
+	libegl1-mesa \
 	dbus -y
 
 	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLESv2.so /usr/lib/libbrcmGLESv2.so
