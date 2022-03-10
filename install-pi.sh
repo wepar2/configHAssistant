@@ -40,6 +40,7 @@ else
 	libegl-dev \
 	libminizip1 \
 	libegl1-mesa \
+	docker-compose \
 	dbus -y
 
 	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLESv2.so /usr/lib/libbrcmGLESv2.so
