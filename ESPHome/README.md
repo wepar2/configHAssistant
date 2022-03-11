@@ -9,7 +9,7 @@ In your esphome .yaml config
 ```
 web_server:
   port: 80
-  css_url: http://192.168.1.6:8123/local/ESPHome/webserver-night.min.css
+  css_url: http://YOUR_HOST:8123/local/ESPHome/webserver-night.min.css
 ```
 
 ***Theme 1:***
