@@ -40,7 +40,6 @@ else
 	libegl-dev \
 	libminizip1 \
 	libegl1-mesa \
-	docker-compose \
 	dbus -y
 
 	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLESv2.so /usr/lib/libbrcmGLESv2.so
@@ -77,7 +76,9 @@ else
 	info "Instalando docker"
 	sleep 5
 	curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker pi
-
+	
+	sudo apt-get install docker-compose
+	
 	info "Instalando NodeRed, influxdb, portainer web"
 	sleep 5
 
