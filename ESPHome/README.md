@@ -1,6 +1,11 @@
 # Theme for ESPhome
 
-In your esphome yaml config
+Create a directory on your Home Assistant server to host the .css file
+```
+homeAssistant/www/ESPHome
+```
+
+In your esphome .yaml config
 ```
 web_server:
   port: 80
