@@ -268,9 +268,6 @@ chmod a+x "${PREFIX}/bin/ha"
 info
 info "Home Assistant supervised is now installed"
 info "First setup will take some time, when it's ready you can reach it here:"
-info "http://${IP_ADDRESS}:8123"
-info "AnyDesk id ${anyid}"
-info "pass AnyDesk: toor1234"
 info
 
 info "¿Quieres reiniciar Si[s] no[n o intro]? [S/N] "
