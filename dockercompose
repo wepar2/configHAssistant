@@ -1,0 +1,74 @@
+version: '3'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      
+  nodered:
+    container_name: nodered
+    hostname: nodered
+    network_mode: host
+    user: "root"
+    privileged: true
+    image: nodered/node-red:latest-12
+    ports:
+      - 1880:1880/tcp
+    restart: always
+    volumes:
+      - /docker/nodered/data:/data
+      - /usr/bin/vcgencmd:/usr/bin/vcgencmd
+      - /etc/localtime:/etc/localtime
+    environment:
+      - LD_LIBRARY_PATH=/opt/vc/lib
+      - TZ=Europe/Madrid
+      
+  duckdns:
+    image: ebrianne/duckdns-go
+    container_name: duckdns
+    environment:
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+      - TZ=Europe/Madrid
+      - DUCKDNS_TOKEN=68df365b-f9f6-424d-9894-907f642a7375
+      - DUCKDNS_DOMAINS=domopihouse,domopinode
+      - LOG_FILE=false #optional
+    volumes:
+      - /docker/duckdns/config:/config #optional
+    restart: unless-stopped
+    
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /docker/heimdall:/config
+    ports:
+      - 82:80
+      - 4433:443
+    restart: unless-stopped
