@@ -21,8 +21,6 @@ sleep 10
 
 ARCH=$(uname -m)
 
-anyid=$(anydesk --get-id)
-
 IP_ADDRESS=$(hostname -I | awk '{ print $1 }')
 
 BINARY_DOCKER=/usr/bin/docker
