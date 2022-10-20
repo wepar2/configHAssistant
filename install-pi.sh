@@ -5,7 +5,7 @@ if [[ "$(id -u)" != "0" ]]; then
    sleep 3
    clear      
 else
-
+	
 	set -e
 
 	declare -a MISSING_PACKAGES
@@ -13,6 +13,9 @@ else
 	function info { echo -e "\e[32m[info] $*\e[39m"; }
 	function warn  { echo -e "\e[33m[warn] $*\e[39m"; }
 	function error { echo -e "\e[31m[error] $*\e[39m"; exit 1; }
+
+	info "¿Cual es el nombre de tu usuario?(NO ROOT)"
+        read NAM < /dev/tty
 
 
 	info "Comprobando actualizaciones"
@@ -34,7 +37,7 @@ else
 	apparmor-utils \
 	avahi-daemon \
 	dbus \
-	jq \
+	jq -y
 
 	info "Creando carpetas...."
 
@@ -49,15 +52,15 @@ else
 	sudo mkdir /docker/influxdb/etc/
 	sudo mkdir /docker/influxdb/etc/influxdb
 	sudo mkdir /docker/portainer
-	sudo chown pi -R /docker
+	sudo chown $NAM -R /docker
 	
 	sleep 2
 
 	info "Instalando docker"
 	sleep 5
-	curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker pi
+	curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker $NAM
 	
-	sudo apt-get install docker-compose
+	sudo apt-get install docker-compose -y
 	
 	info "Instalando NodeRed, influxdb, portainer web"
 	sleep 5
@@ -69,12 +72,14 @@ else
 	info "Descargando os-agent"
 	sleep 5
 
-	wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_armv7.deb
+	wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_x86_64.deb
 
 	sleep 5
 	info "instalando os-agent"
-	sudo dpkg -i os-agent_1.2.2_linux_armv7.deb
-
+	sudo dpkg -i os-agent_1.4.1_linux_x86_64.deb
+	
+	sudo chown $NAM -R /docker
+	
 	sleep 10
 	info "Instalando home-assistant"
 	info "sudo ./installHassio.sh  -m raspberrypi4 -d /docker/hassio/"
