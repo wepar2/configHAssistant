@@ -38,7 +38,8 @@ else
 	apparmor-utils \
 	avahi-daemon \
 	dbus \
-	jq -y
+	apparmor \
+	systemd-journal-remote -y
 
 	info "Creando carpetas...."
 
