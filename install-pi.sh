@@ -5,6 +5,7 @@ if [[ "$(id -u)" != "0" ]]; then
    sleep 3
    clear      
 else
+	ARCH=$(uname -m)
 	
 	set -e
 
@@ -71,12 +72,24 @@ else
 
 	info "Descargando os-agent"
 	sleep 5
-
-	wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_x86_64.deb
-
-	sleep 5
-	info "instalando os-agent"
-	sudo dpkg -i os-agent_1.4.1_linux_x86_64.deb
+		
+	case $ARCH in
+	
+	"x86_64")
+		wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_x86_64.deb
+		
+		sleep 5
+		info "instalando os-agent"
+		sudo dpkg -i os-agent_1.4.1_linux_x86_64.deb
+	;;
+	
+	"arm" |"armv6l")
+		wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_armv7.deb
+		
+		sleep 5
+		info "instalando os-agent"
+		sudo dpkg -i os-agent_1.4.1_linux_armv7.deb
+	;;
 	
 	sudo chown $NAM -R /docker
 	
