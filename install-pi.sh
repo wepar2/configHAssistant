@@ -91,7 +91,6 @@ else
 		sudo dpkg -i os-agent_1.4.1_linux_armv7.deb
 	;;
 	
-	sudo chown $NAM -R /docker
 	
 	sleep 10
 	info "Instalando home-assistant"
