@@ -3,4 +3,6 @@
 PCB for domotic and ESPHome. Full ESP32.
 
 ***PZEM-004T:***
-![Final Installation](./PCB.png "Theme Installation")
+
+![Pzem004t-ESP32](./PCB.png "Adapter ESP32")
+
