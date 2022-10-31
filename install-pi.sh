@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bash
 
 if [[ "$(id -u)" != "0" ]]; then
    echo "ESTE SCRIPT DEBE SER EJECUTADO COMO ROOT"
