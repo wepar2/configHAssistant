@@ -47,11 +47,6 @@ function msg_ok() {
 clear
 header_info
 
-ARCH=$(uname -m)
-
-info "¿Cual es el nombre de tu usuario?(NO ROOT)"
-read NAM < /dev/tty
-
 read -r -p "Update SystemOS now? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
     msg_info "Updating (Patience)"
