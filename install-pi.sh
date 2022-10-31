@@ -13,6 +13,9 @@ BFR="\\r\\033[K"
 HOLD="-"
 CM="${GN}✓${CL}"
 CROSS="${RD}✗${CL}"
+ARCH=$(uname -m)
+USER=$(whoami)
+
 clear
 echo -e "${BL}This script will Perform Post Install Routines. For Home Assistant Supervice${CL}"
 while true; do
@@ -46,10 +49,6 @@ function msg_ok() {
 
 clear
 header_info
-
-ARCH=$(uname -m)
-
-USER=$(whoami)
 
 read -r -p "Update SystemOS now? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
