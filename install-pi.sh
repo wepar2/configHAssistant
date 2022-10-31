@@ -49,14 +49,13 @@ header_info
 
 ARCH=$(uname -m)
 
-info "¿Cual es el nombre de tu usuario?(NO ROOT)"
-read NAM < /dev/tty
+USER=$(whoami)
 
 read -r -p "Update SystemOS now? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
     msg_info "Updating (Patience)"
-    apt-get update &>/dev/null
-    apt-get -y dist-upgrade &>/dev/null
+    sudo apt-get update &>/dev/null
+    sudo apt-get -y dist-upgrade &>/dev/null
     msg_ok "Updated (⚠ Reboot Recommended)"
 fi
 
@@ -97,7 +96,7 @@ if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]
         sudo mkdir /docker/influxdb/etc/
         sudo mkdir /docker/influxdb/etc/influxdb
         sudo mkdir /docker/portainer
-        sudo chown $NAM -R /docker
+        sudo chown $USER -R /docker
 
     msg_ok "Carpetas creadas"
 fi
@@ -106,7 +105,7 @@ read -r -p "Quieres instalar Docker? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
     msg_info "instalando Docker"
     sleep 2
-    curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker $NAM
+    curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh && sudo usermod -aG docker $USER
     msg_ok "Docker instalado"
 fi
 
@@ -137,7 +136,6 @@ if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]
         wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_x86_64.deb
 
         sleep 5
-        info "instalando os-agent"
         sudo dpkg -i os-agent_1.4.1_linux_x86_64.deb
     ;;
 
@@ -145,18 +143,18 @@ if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]
         wget https://github.com/home-assistant/os-agent/releases/download/1.4.1/os-agent_1.4.1_linux_armv7.deb
 
         sleep 5
-        info "instalando os-agent"
         sudo dpkg -i os-agent_1.4.1_linux_armv7.deb
     ;;
+    esac
     msg_ok "OS-AGENT instalado"
 fi
 
-read -r -p "Reboot Proxmox VE 7 now? <y/N> " prompt
+read -r -p "Reboot OS System now? <y/N> " prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]; then
-    msg_info "Rebooting Proxmox VE 7"
+    msg_info "Rebooting OS System"
     sleep 2
     msg_ok "Completed Post Install Routines"
-    reboot
+    sudo reboot
 fi
 sleep 2
-msg_ok "Completed Post Install Routines"
+msg_ok "sudo ./installHassio.sh  -m raspberrypi4 -d /docker/hassio/"
