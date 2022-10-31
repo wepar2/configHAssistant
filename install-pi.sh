@@ -158,6 +158,5 @@ if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]
     msg_ok "Completed Post Install Routines"
     reboot
 fi
-
 sleep 2
 msg_ok "Completed Post Install Routines"
