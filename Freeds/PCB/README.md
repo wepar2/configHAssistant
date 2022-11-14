@@ -4,7 +4,7 @@ Gestor de excendetes Freeds.
 
 http://freeds.es/
 
-***PZEM-004T:***
-
-![Pzem004t-ESP32](./PCB-freeds.png "Adapter ESP32")
+***PCB Freeds:***
+![PCB Freeds](./PCB-3D.png "PCB Freeds")
+![PCB Freeds](./PCB-freeds.png "PCB Freeds")
 
